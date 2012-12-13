@@ -12,8 +12,10 @@
 @interface GoalEditGoalNameVC : PrevNextVC <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barButtonNext;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *barButtonBack;
 @property (weak, nonatomic) IBOutlet UIImageView *checkingView;
 @property (weak, nonatomic) IBOutlet UITextField *goalName;
+@property (weak, nonatomic) IBOutlet UIButton *agreeItem;
 
 - (IBAction)onTapAgree:(id)sender;
 - (IBAction)onTapNotSure:(id)sender;

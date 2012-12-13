@@ -124,36 +124,6 @@
     [self.facebook authorize:defaultPermissions];
 }
 
-- (NSString*)firstStep {
-    /*NSString *urlString = [NSString stringWithFormat:@"OAuth oauth_nonce="xq2maKtilFhVTC1MSxVC4cQIJLd53O6w97YmrdOGSk8",
-                           
-                           oauth_signature_method="HMAC-SHA1",
-                           
-                           oauth_timestamp="1322697052",
-                           
-                           oauth_consumer_key="JP3PyvG67rXRsnayOJOcQ",
-                           
-                           oauth_token="5mgkU82W0PTA0DLgSIA5vFK6c08i8dXzrbLnX06vl38", 
-                           
-                           oauth_signature="aOM%2FwW2kAowAeHBRvw7faH245p0%3D", 
-                           
-                           oauth_version="1.0"];
-    NSURL *url = [NSURL URLWithString:@""];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:requestOperation];
-    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSStringEncodingConversionAllowLossy];
-        [self secondStep:responseObject];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-    }];
-    [requestOperation start];*/
-}
-
-- (NSString*)secondStep:(NSString*)resultOfStep1 {
-    
-}
-
 - (void)loginViaTwitterWithCompletionHandler:(LWSuccessHandler )successHandler failHandler:(LWFailHandler)failHandler {    
     
     
@@ -177,7 +147,6 @@
     //--------------
     
     if([twitterAccounts count] > 0) {
-        ACAccount *account = [twitterAccounts lastObject];
         successHandler();
     }
     else {

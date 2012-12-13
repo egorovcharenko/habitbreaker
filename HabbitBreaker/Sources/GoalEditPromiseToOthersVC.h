@@ -12,5 +12,7 @@
 @interface GoalEditPromiseToOthersVC : PrevNextVC
 
 - (IBAction)onFinish:(id)sender;
+- (IBAction)onFacebookTap:(id)sender;
+- (IBAction)onTwitterTap:(id)sender;
 
 @end

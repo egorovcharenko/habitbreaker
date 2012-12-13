@@ -9,53 +9,65 @@
 #import "FBHelper.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "Facebook.h"
 
 @interface FBHelper ()
-
+@property(nonatomic, strong)NSMutableDictionary *callbacks;
 @end
 
 @implementation FBHelper
+
++ (instancetype)sharedInstance {
+    static FBHelper *_sharedInstance;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedInstance = [FBHelper new];
+    });
+    
+    return _sharedInstance;
+}
 
 - (id)init {
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginFacebookSuccess) name:kNotificationFbLoginSuccess object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutFacebookSuccess) name:kNotificationFbLogoutSuccess object:nil];
+        self.callbacks = [NSMutableDictionary new];
     }
     return self;
 }
 
 #pragma mark - Notification Methods
 
+- (Facebook*)facebook {
+    AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    return appDelegate.facebook;
+}
+
 - (void)loginFacebookSuccess {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Login success!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Login success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }
 
 - (void)logoutFacebookSuccess {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Logout success!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Logout success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }
 
 #pragma mark - Main View Actions
 
-- (void)login {
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (![appDelegate.facebook isSessionValid]) {
-        NSArray *permissions = [NSArray arrayWithObjects:
-                                @"read_stream",
-                                @"publish_stream",
-                                @"offline_access",
-                                nil];
-        [appDelegate.facebook authorize:permissions];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message"
-                                                        message:@"You are already siggned!"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"OK", nil];
-        [alert show];
-    }    
+- (void)login {    
+    AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    
+    NSArray *permissions = [NSArray arrayWithObjects:
+                            @"read_stream",
+                            @"publish_stream",
+                            @"offline_access",
+                            nil];
+    
+    [appDelegate.facebook authorize:permissions];
+    NSLog(@"%@", appDelegate.facebook);
 }
 
 - (void)logout {
@@ -64,27 +76,70 @@
 }
 
 - (void)postText:(NSString*)message {
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];    
-    if (![appDelegate.facebook isSessionValid]){
-        UIAlertView  *alertView = [[UIAlertView alloc] initWithTitle:@"Warning"
-                                                             message:@"Please login to Facebook!"
-                                                            delegate:self
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
-        [alertView show];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    Facebook *facebook = appDelegate.facebook;
+    facebook.sessionDelegate = self;
+    
+    if ( ! facebook.isSessionValid) {
+        [self.callbacks setObject:[(^(){
+            [self postText:message];
+        }) copy] forKey:@"fbDidLogin"];
+        
+        
+        [self login];
     } else {
-        NSMutableDictionary *params = [NSMutableDictionary  dictionaryWithObjectsAndKeys:
-                                       [NSString stringWithFormat:  @"My message from iOS!"],
-                                                                    message,
-                                                                    nil];
-        [appDelegate.facebook requestWithGraphPath:@"/me/feed"
-                                         andParams:params
-                                     andHttpMethod:@"POST"
-                                       andDelegate:self];
+        NSMutableDictionary *params = @{@"message": message}.mutableCopy;
+        
+        [facebook requestWithGraphPath:@"/me/feed"
+                             andParams:params
+                         andHttpMethod:@"POST"
+                           andDelegate:self];
     }
 }
 
 #pragma mark - FBRequest Methods
+
+
+#pragma mark - FBConnect delegate
+
+- (void)fbDidLogin {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[self.facebook accessToken] forKey:@"FBAccessTokenKey"];
+    [defaults setObject:[self.facebook expirationDate] forKey:@"FBExpirationDateKey"];
+    [defaults synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFbLoginSuccess object:nil];
+    
+    [[self.callbacks objectForKey:@"fbDidLogin"] invoke];
+    [self.callbacks removeObjectForKey:@"fbDidLogin"];
+    
+    NSLog(@"login success!");
+}
+
+- (void)fbDidLogout {
+    // Remove saved authorization information if it exists
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"]) {
+        [defaults removeObjectForKey:@"FBAccessTokenKey"];
+        [defaults removeObjectForKey:@"FBExpirationDateKey"];
+        [defaults synchronize];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFbLogoutSuccess object:nil];
+    NSLog(@"logout success!");
+}
+
+- (void)fbDidNotLogin:(BOOL)cancelled {
+    
+}
+
+- (void)fbDidExtendToken:(NSString*)accessToken
+               expiresAt:(NSDate*)expiresAt {
+    
+}
+
+- (void)fbSessionInvalidated {
+    
+}
+
 
 - (void)request:(FBRequest *)request didFailWithError:(NSError *)error {
     NSLog(@"%@", [error localizedDescription]);

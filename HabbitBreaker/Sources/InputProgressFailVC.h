@@ -10,6 +10,7 @@
 #import "BaseVC.h"
 
 @interface InputProgressFailVC : BaseVC
+
 @property (weak, nonatomic) IBOutlet UILabel *confirmationLbl;
 
 - (IBAction)onPay:(id)sender;

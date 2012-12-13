@@ -7,18 +7,27 @@
 //
 
 #import "HomeVC.h"
-#import "DGCalendar.h"
 #import "App.h"
 #import "AccountManager.h"
 #import "Goal.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "CalendarView.h"
 #import <Twitter/Twitter.h>
-#import "FBHelper.h"
+#import "Result.h"
+#import "AppDelegate.h"
 
-@interface HomeVC ()
-@property(nonatomic, strong)AccountManager *accManager;
-@property(nonatomic, strong)NSString       *emptyGoalReplacement;
+#define CALV_VIEW_HEIGHT 180.0
+
+@interface HomeVC () {
+    struct DateInfo dateInfo;
+    NSArray *months;
+    NSCalendar *gregorian;
+}
+
+@property (nonatomic, strong) AccountManager *accManager;
+@property (nonatomic, strong) NSString *emptyGoalReplacement;
+@property (nonatomic, weak) CalendarView *calView;
+
 @end
 
 @implementation HomeVC
@@ -27,19 +36,38 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        
         self.emptyGoalReplacement = @"Tap here to enter your goal";
+        
+        NSDate *now = [NSDate date];
+        gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        gregorian.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+        
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        comps.year = [gregorian ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:now];
+        comps.month = [gregorian ordinalityOfUnit:NSMonthCalendarUnit inUnit:NSYearCalendarUnit forDate:now];
+        comps.day = 1;
+        
+        [self dateInfoForDate:[gregorian dateFromComponents:comps]];
+        
+        months = @[@"", @"January", @"February",
+                   @"March", @"April", @"May",
+                   @"June", @"July", @"August",
+                   @"September", @"October", @"November",
+                   @"December"];
+        
+        [[App sharedApp] synchronize];
     }
     return self;
 }
 
 - (UIImage*)imageForNumOfWins:(NSUInteger)numOfWins {
+    numOfWins = MIN(numOfWins, 100);
     return [UIImage imageNamed:[NSString stringWithFormat:@"Belt_%d.png", numOfWins]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     self.beltImage.image = [self imageForNumOfWins:[[App sharedApp].goals.lastObject points]];
-        
-    [self.calendar rebuildCalendarGrid];
     
     if ([[App sharedApp].goals.lastObject goalName] != nil) {
         self.goalNameLbl.text = [[App sharedApp].goals.lastObject goalName];
@@ -48,36 +76,33 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self updateUI];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    float calView_y = CGRectGetHeight(self.view.frame)- 35.0 - CALV_VIEW_HEIGHT;
+    CalendarView *tempCalView = [[CalendarView alloc] initWithFrame:CGRectMake(0.0, calView_y, 320.0, 180.0)];
+    self.calView = tempCalView;
+    [self.view addSubview:self.calView];
+    [self.view bringSubviewToFront:self.calView];
+    
+    [self updateUI];
+    
+    [self printDateInfo];
+    
     if ([App sharedApp].isFirstLaunch) {
         [self performSegueWithIdentifier:@"SegueToGoalEdit" sender:self];
     }
-    
-    FBHelper *helper = [FBHelper new];
-    [helper login];
-    [helper postText:@"Heeheh"];
-    
-   /* if ([TWTweetComposeViewController canSendTweet]) {
-        TWTweetComposeViewController *tweetVC = [TWTweetComposeViewController new];
-        [tweetVC setInitialText:@""];
-        
-        [self presentViewController:tweetVC animated:YES completion:nil];
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to Tweet" message:@"Please ensure you have at least one Twitter account setup and have internet connectivity" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [alertView show];
-    }
-    */
-    /*self.accManager = [[AccountManager alloc] init];
-    [self.accManager loginViaFacebookWithCompletionHandler:^{
-        NSLog(@"Hi");
-    } failHandler:^(LWAccountError status) {
-        NSLog(@"Hi");
-    }];
-    */
-    self.calendar.currentDate = [NSDate date];
+}
+
+- (void)updateMonthLabel
+{
+    self.monthLabel.text = [NSString stringWithFormat:@"%@ %d", months[dateInfo.month], dateInfo.year];
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,80 +111,102 @@
 }
 
 - (void)viewDidUnload {
-    [self setCalendar:nil];
     [self setTapToProgressRecognizer:nil];
     [self setBeltImage:nil];
     [self setGoalNameLbl:nil];
+    [self setCalView:nil];
+    [self setMonthLabel:nil];
     [super viewDidUnload];
 }
 
-#pragma mark DGCalendarDelegate
-
-- (NSInteger)calendar:(DGCalendar*)calendar taggedTileTypeForDate :(NSDateComponents*)date {
-    Result *thisDateResult = nil;
+- (void)dateInfoForDate:(NSDate *)aDate
+{
+    NSRange days = [gregorian rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:aDate];
+    NSDateComponents *comps = [gregorian components:(NSMonthCalendarUnit | NSYearCalendarUnit | NSWeekdayCalendarUnit) fromDate:aDate];
     
-    for (Result *res in [[App sharedApp].goals.lastObject progressHistory]) {
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:res.date];
-        if (components.day   == date.day &&
-            components.month == date.month &&
-            components.year  == components.year) {
-            
-            thisDateResult = res;
-            break;
-        }
-    }
+    comps.day = 1;
     
-    NSInteger retval;
-    if (thisDateResult != nil) {
-        switch (thisDateResult.result) {
-            case Success:
-                retval = 1;
-                break;
-            case NewLevel:
-                retval = 1;
-                break;
-            case Fail:
-                retval = 3;
-                break;
-            default:
-                retval = 2;
-        }
-    } else {
-        retval = 2;
-    }
-    
-    return retval;
+    dateInfo.year = comps.year;
+    dateInfo.month = comps.month;
+    dateInfo.daysInMonth = days.length;
+    dateInfo.monthStart = comps.weekday;
 }
 
-- (void)calendar:(DGCalendar *)calendar customizeTile:(DGDayTile*)dayTile withDate:(NSDateComponents *)date {
-    Result *thisDateResult = nil;
-    
-    for (Result *res in [[App sharedApp].goals.lastObject progressHistory]) {
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:res.date];
-        if (components.day   == date.day &&
-            components.month == date.month &&
-            components.year  == components.year) {
-            
-            thisDateResult = res;
-            break;
-        }
-    }
-    
-    if (thisDateResult != nil) {
-        switch (thisDateResult.result) {
-            case Success:
-                dayTile.score.text = [NSString stringWithFormat:@"+%d", thisDateResult.points];
-                break;
-            case NewLevel:
-                dayTile.score.text = [NSString stringWithFormat:@"+%d", thisDateResult.points];
-                break;
-            case Fail:
-                dayTile.score.text = [NSString stringWithFormat:@"%d", thisDateResult.points];
-                break;
-        }
-    }
+- (void)printDateInfo
+{
+//    NSLog(@"year:  %d", dateInfo.year);
+//    NSLog(@"month: %d", dateInfo.month);
+//    NSLog(@"days:  %d", dateInfo.daysInMonth);
+//    NSLog(@"start: %d", dateInfo.monthStart);
 }
 
-#pragma mark -
+- (void)updateDateInfo
+{
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    comps.year = dateInfo.year;
+    comps.month = dateInfo.month;
+    comps.day = 1;
+    NSDate *date = [gregorian dateFromComponents:comps];
+    [self dateInfoForDate:date];
+}
 
+// sets velues for calendarView
+// 1. number of days in the month       => daysInMonth
+// 2. day that starts the month         => monthStart
+// 3. days that should be highlighted   => highlightDays
+// 4. highlight colors                  => highlightColors
+- (void)updateUI
+{
+    CalendarView *calendarView = self.calView;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        Result *res = (Result *)evaluatedObject;
+        NSDateComponents *comps = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit) fromDate:res.date];
+        return (dateInfo.year == comps.year && dateInfo.month == comps.month);
+    }];
+    
+    NSArray *currentMonthResults = [[[App sharedApp].goals.lastObject progressHistory] filteredArrayUsingPredicate:predicate];
+    
+    calendarView.highlightDays = [[NSMutableArray alloc] initWithCapacity:currentMonthResults.count];
+    calendarView.highlightColors = [[NSMutableArray alloc] initWithCapacity:currentMonthResults.count];
+    calendarView.highlightPoints = [[NSMutableArray alloc] initWithCapacity:currentMonthResults.count];
+    
+    for (Result *res in currentMonthResults) {
+        NSDateComponents *comps = [gregorian components:NSDayCalendarUnit fromDate:res.date];
+        NSInteger day = comps.day;
+        [calendarView.highlightDays addObject:@(day)];
+        BOOL color = (res.result != Fail ? YES : NO);
+        [calendarView.highlightColors addObject:@(color)];
+        
+        NSString *pointsStr = [NSString stringWithFormat:@"%@%d", (color ? @"+" : @""), res.points];
+        [calendarView.highlightPoints addObject:pointsStr];
+    }
+    
+    calendarView.monthStart = dateInfo.monthStart;
+    calendarView.daysInMonth = dateInfo.daysInMonth;
+    [calendarView setNeedsDisplay];
+    [self updateMonthLabel];
+}
+
+- (IBAction)showPreviosMonth:(id)sender
+{
+    dateInfo.month -= 1;
+    if (dateInfo.month == 0) {
+        dateInfo.month = 12;
+        dateInfo.year -= 1;
+    }
+    [self updateDateInfo];
+    [self updateUI];
+}
+
+- (IBAction)showNextMonth:(id)sender
+{
+    dateInfo.month += 1;
+    if (dateInfo.month == 13) {
+        dateInfo.month = 1;
+        dateInfo.year += 1;
+    }
+    [self updateDateInfo];
+    [self updateUI];
+}
 @end

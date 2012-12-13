@@ -10,10 +10,11 @@
 #import "BaseVC.h"
 
 
-@interface ShareSuccessVC : BaseVC <UITextViewDelegate>
+@interface ShareSuccessVC : BaseVC <UITextViewDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *comment;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *barButtonNext;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollCanvas;
 
 - (IBAction)onFacebookTap:(id)sender;
 - (IBAction)onTwitterTap:(id)sender;

@@ -14,6 +14,9 @@
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *pages;
 @property (weak, nonatomic) IBOutlet UIScrollView  *scrollCanvas;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
 - (IBAction)onPageControlChangeValue:(id)sender;
+- (IBAction)gotoStoriesVC:(id)sender;
+- (IBAction)gotoTips:(id)sender;
 
 @end

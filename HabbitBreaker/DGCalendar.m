@@ -42,7 +42,7 @@
             [self.goPreviousMonth addTarget:self action:@selector(onPrevMonth:) forControlEvents:UIControlEventTouchUpInside];
             
             self.showingMonthDate = self.operatingDate.copy;
-                        
+            
             [self rebuildCalendarGrid];
         });
         
@@ -54,7 +54,9 @@
 - (NSDateComponents*)operatingDate {
     id calendar = [NSCalendar currentCalendar];
     NSDateComponents *date = [calendar components:NSYearCalendarUnit | NSWeekdayCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:self.operatingNSDate];
-    [date setLeapMonth:YES];
+    if ([date respondsToSelector:@selector(setLeapMonth:)]) {
+        //    [date setLeapMonth:YES];
+    }
     
     return date;
 }
@@ -99,21 +101,11 @@
 }
 
 - (DGDayTile*)daytileWithDate:(NSDateComponents*)date {
-    NSInteger tag       = [self.delegate calendar:self taggedTileTypeForDate:date];
-    DGDayTile *template = [[self.tiles filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [evaluatedObject tag] == tag;
-    }]] lastObject];
-    
-    NSData *viewData    = [NSKeyedArchiver archivedDataWithRootObject:template];
-    DGDayTile *day      = [NSKeyedUnarchiver unarchiveObjectWithData:viewData];
+    DGDayTile *day = [self.delegate calendar:self tileForDate:date];
     
     day.day.text = [NSString stringWithFormat:@"%d", date.day];
     
     day.tag = GENERATED_CONCRETE_DAY_TILE;
-    
-    if ([self.delegate respondsToSelector:@selector(calendar:customizeTile:withDate:)]) {
-        [self.delegate calendar:self customizeTile:day withDate:date];
-    }
     
     return day;
 }
@@ -146,7 +138,7 @@
         DGDayTile *day      = [self daytileWithDate:dateToShow];
         
         [self addDay:day withIndex:calendarDay];
-                
+        
         dateToShow.day++;
         [self recalcDate:&dateToShow];
         ++calendarDay;

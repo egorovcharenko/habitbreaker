@@ -10,9 +10,10 @@
 #import "DetailedProgressCell.h"
 #import "App.h"
 #import "Goal.h"
-//#import "Result.h"
 
-@interface DetailedProgressVC ()
+@interface DetailedProgressVC () {
+    NSArray *progressData;
+}
 
 @end
 
@@ -40,6 +41,12 @@
     [self.navigationItem setLeftBarButtonItem:backButton];
     
     self.navigationItem.hidesBackButton = YES;
+    progressData = [self progressHistory];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    progressData = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,7 +67,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DetailedProgressCell *cell = nil;
-    Result *result = [[[App sharedApp].goals.lastObject progressHistory] objectAtIndex:indexPath.row];
+    Result *result = [progressData objectAtIndex:indexPath.row];
     switch (result.result) {
         case Fail:
             cell = [tableView dequeueReusableCellWithIdentifier:@"Fail"];
@@ -75,15 +82,32 @@
             cell.result.text  = [NSString stringWithFormat:@"+%d", result.points];
             break;
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.comment.text = result.comment;
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"ddMMyy" options:0 locale:[[NSLocale alloc] initWithLocaleIdentifier:@"EN"]]];
-    cell.date.text    = [formatter stringFromDate:result.date];
+    cell.date.text    = [[self dateFormatter] stringFromDate:result.date];
     
     
     return cell;
+}
+
+- (NSDateFormatter *)dateFormatter {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:[NSDateFormatter dateFormatFromTemplate:@"ddMMyy" options:0 locale:[[NSLocale alloc] initWithLocaleIdentifier:@"EN"]]];
+    return formatter;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%d", indexPath.row);
+    
+    Result *result = [progressData objectAtIndex:indexPath.row];
+    NSString *text = result.comment;
+    
+    [[[UIAlertView alloc] initWithTitle:@"Comment:"
+                                message:text
+                              delegate:nil
+                     cancelButtonTitle:@"Hide"
+                     otherButtonTitles:nil] show];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,5 +120,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (NSArray *)progressHistory {
+    NSMutableArray *array = [NSMutableArray array];
+    NSEnumerator *enumerator = [[[App sharedApp].goals.lastObject progressHistory] reverseObjectEnumerator];
+    for (id element in enumerator) {
+        [array addObject:element];
+    }
+    return array;
+}
+
 
 @end

@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "BaseVC.h"
 
-@interface ShareFailVC : BaseVC
+@interface ShareFailVC : BaseVC <UIScrollViewDelegate, UITextViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextView *comment;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *barButtonNext;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollCanvas;
+
+- (IBAction)onFacebookTap:(id)sender;
+- (IBAction)onTwitterTap:(id)sender;
+- (IBAction)onSaveTap:(id)sender;
+- (IBAction)onFinishTap:(id)sender;
 
 @end

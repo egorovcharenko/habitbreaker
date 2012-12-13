@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseVC.h"
 
-@interface InspirationsTipsVC : UIAlertView
+@interface InspirationsTipsVC : BaseVC
+
+@property (weak, nonatomic) IBOutlet UIWebView *_webView;
+
+- (IBAction)gotoExamples:(id)sender;
+- (IBAction)gotoStories:(id)sender;
 
 @end

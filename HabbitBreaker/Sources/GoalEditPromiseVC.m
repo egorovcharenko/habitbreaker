@@ -7,6 +7,9 @@
 //
 
 #import "GoalEditPromiseVC.h"
+#import "App.h"
+#import "Goal.h"
+#import "Result.h"
 
 typedef enum {
     Printed,
@@ -19,6 +22,8 @@ typedef enum {
 @end
 
 @implementation GoalEditPromiseVC
+
+@synthesize isVisible = _isVisible;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -76,8 +81,6 @@ typedef enum {
     return YES;
 }
 
-
-
 - (void)keyboardDidShow:(NSNotification*)note {
     if (self.isVisible) {
         CGRect shrinkedFrame = self.scrollCanvas.frame;
@@ -88,11 +91,11 @@ typedef enum {
 
 - (void)keyboardWillHide:(NSNotification*)note {
     if (self.isVisible) {
-        CGRect extendedFrame = self.view.frame;
+        CGRect extendedFrame = self.scrollCanvas.frame;
         extendedFrame.size.height += [[note.userInfo valueForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue].size.height;
         
         [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.view.frame = extendedFrame;
+            self.scrollCanvas.frame = extendedFrame;
         } completion:nil];
     }
 }
@@ -128,7 +131,14 @@ typedef enum {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
-        [mailViewController setMessageBody:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/tml4/strict.dtd\"><html><head>  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">  <meta http-equiv=\"Content-Style-Type\" content=\"text/css\">  <title></title>  <meta name=\"Generator\" content=\"Cocoa HTML Writer\">  <meta name=\"CocoaVersion\" content=\"1138.51\">  <style type=\"text/css\">      p.p0 {} p.p1 {} p.p2 {}  </style></head><body><p class=\"p0\"><center>PROMISE TO MYSELF</center></p><p class=\"p1\">Today, I promise to myself that I am totally devoted to reaching my goal: \"%@\"</p><p class=\"p1\">It will bring me the following benefits:</p><p class=\"p1\"><b>Financial: </b>%@</p><p class=\"p1\"><b>For my health:</b> %@</p><p class=\"p1\"><b>For personal life:</b> %@</p><p class=\"p1\"><b>Other benefits:</b> %@</p></body></html>" isHTML:YES];
+        
+        Goal *goal = self.goal;
+        
+        NSString *format = @"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/tml4/strict.dtd\"><html><head>  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">  <meta http-equiv=\"Content-Style-Type\" content=\"text/css\">  <title></title>  <meta name=\"Generator\" content=\"Cocoa HTML Writer\">  <meta name=\"CocoaVersion\" content=\"1138.51\">  <style type=\"text/css\">      p.p0 {} p.p1 {} p.p2 {}  </style></head><body><p class=\"p0\"><center>PROMISE TO MYSELF</center></p><p class=\"p1\">Today, I promise to myself that I am totally devoted to reaching my goal: \"%@\"</p><p class=\"p1\">It will bring me the following benefits:</p><p class=\"p1\"><b>Financial: </b>%@</p><p class=\"p1\"><b>For my health:</b> %@</p><p class=\"p1\"><b>For personal life:</b> %@</p><p class=\"p1\"><b>Other benefits:</b> %@</p></body></html>";
+        
+        NSString *message = [NSString stringWithFormat:format, goal.goalName, goal.financeBenefits, goal.healthBenefits, goal.lifeBenefits, goal.otherBenefits];
+        
+        [mailViewController setMessageBody:message isHTML:YES];
         [mailViewController setSubject:@"PROMISE TO MYSELF"];
         [mailViewController setToRecipients:@[self.emailTxt.text]];
         

@@ -41,6 +41,20 @@ typedef enum {
     [super viewDidLoad];
     
     self.goalName.text = self.goal.goalName;
+    
+    UIButton *previousBtnView = [UIButton buttonWithType:UIButtonTypeCustom];
+    [previousBtnView addTarget:self action:@selector(dismissMe:) forControlEvents:UIControlEventTouchUpInside];
+    [previousBtnView setBackgroundImage:[UIImage imageNamed:@"GE_Back_Button.png"] forState:UIControlStateNormal];
+    [previousBtnView setFrame:CGRectMake(0, 0, 70, 30)];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:previousBtnView];
+    [self.navigationItem setLeftBarButtonItem:backButton];
+    
+    if ([App sharedApp].isFirstLaunch) {
+        self.selectionState = NotSure;
+    } else {
+        [_agreeItem sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 - (void)dismissMe:(id)sender {
@@ -52,6 +66,7 @@ typedef enum {
 }
 
 - (void)viewDidUnload {
+    [self setAgreeItem:nil];
     
 }
 
@@ -82,12 +97,12 @@ typedef enum {
         if (self.selectionState == Agree) {
             return YES;
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You should accept that you want to achieve it" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information" message:@"If you don't really want to achieve this goal - this system will not work. Besides, what is the point in reaching it anyway?" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [alert show];
             return NO;
         }
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You should fill the name field" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information" message:@"Please enter goal name" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
         return NO;
     }

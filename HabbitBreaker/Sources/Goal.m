@@ -7,6 +7,7 @@
 //
 
 #import "Goal.h"
+#import "App.h"
 
 @interface Goal ()
 @property(nonatomic, strong)NSArray *levels;
@@ -15,13 +16,21 @@
 @implementation Goal
 
 @synthesize goalName;
+
 @synthesize lifeBenefits;
 @synthesize healthBenefits;
 @synthesize financeBenefits;
-@synthesize otherBenefits;
+@synthesize otherBenefits = _otherBenefits;
+
 @synthesize successCriteria;
 @synthesize failCriteria;
 @synthesize levels;
+
+- (void)setOtherBenefits:(NSString*)benefits {
+    if (benefits != nil) {
+        _otherBenefits = benefits;
+    }
+}
 
 - (id)init {
     self = [super init];
@@ -56,6 +65,16 @@
         @70,
         @100,
         ];
+        
+        self.otherBenefits   = @"";
+        self.financeBenefits = @"";
+        self.healthBenefits  = @"";
+        self.lifeBenefits    = @"";
+        
+        self.goalName        = @"";
+        
+        self.successCriteria    = @"";
+        self.failCriteria       = @"";
     }
     
     return self;
@@ -141,10 +160,13 @@
 - (NSInteger)points {
     NSInteger retval = 0;
     
-    retval += self.successPoints;
-    retval += self.failPoints;
-    
-    retval = MAX(retval, 0);
+    for (Result *result in self.progressHistory) {
+        if (retval + result.points < 0) {
+            retval = 0;
+        } else {
+            retval += result.points;
+        }
+    }
     
     return retval;
 }
@@ -154,13 +176,15 @@
 }
 
 - (NSInteger)currentFailLevel {
-    NSInteger points = [self.progressHistory filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        Result *result = (Result*)evaluatedObject;
-        return result.result == Fail;
-    }]].count;
+    NSInteger fails = 0;
     
-    
-    return -points;
+    for (Result *result in self.progressHistory) {
+        if (result.result == Fail) {
+            fails++;
+        }
+    }
+
+    return -fails;
 }
 
 - (void)registerEvent:(Result*)result {
@@ -184,6 +208,8 @@
     if (currentLevel > previousLevel) {
         result.result = NewLevel;
     }
+    
+    [[App sharedApp] rescheduleReminder];
 }
 
 - (NSInteger)levelToPoints:(Level)level {
@@ -210,12 +236,19 @@
 }
 
 - (Level)currentLevel {
-    NSArray *wins = [self.progressHistory filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        Result *result = (Result *)evaluatedObject;
-        return result.result == Success || result.result == NewLevel;
-    }]];
+    NSInteger retLevel = [self.levels indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSInteger retval = [obj integerValue] <= self.points && (
+                    self.levels.count - 1 == idx ||
+                    [[self.levels objectAtIndex:idx + 1] integerValue] > self.points);
+        
+        return retval;
+    }];
     
-    return [self pointToLevel:wins.count];
+    if ( ! (retLevel >= 0 && retLevel < self.levels.count)) {
+        retLevel = self.levels.count - 1;
+    }
+    
+    return retLevel;
 }
 
 @end

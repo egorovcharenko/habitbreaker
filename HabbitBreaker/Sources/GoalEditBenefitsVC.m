@@ -41,6 +41,14 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    self.isVisible = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    self.isVisible = NO;
+}
+
 - (void)keyboardDidShow:(NSNotification*)note {
     if (self.isVisible) {
         CGRect shrinkedFrame = self.scrollCanvas.frame;
@@ -51,11 +59,11 @@
 
 - (void)keyboardWillHide:(NSNotification*)note {
     if (self.isVisible) {
-        CGRect extendedFrame = self.view.frame;
+        CGRect extendedFrame = self.scrollCanvas.frame;
         extendedFrame.size.height += [[note.userInfo valueForKey:@"UIKeyboardBoundsUserInfoKey"] CGRectValue].size.height;
         
         [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.view.frame = extendedFrame;
+            self.scrollCanvas.frame = extendedFrame;
         } completion:nil];
     }
 }
@@ -127,7 +135,7 @@
     {
         return YES;
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You should fill benefits" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information" message:@"Please enter all benefits - it will help you" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
         return NO;
     }

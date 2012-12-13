@@ -43,4 +43,28 @@
     
 }
 
+- (void)gotoViewControllerWithName:(NSString *)aViewControllerName {                                           
+    UIViewController *targetViewController = [self viewControllerFromStoryBoardID:aViewControllerName];
+    [self.tabBarController updateViewControllersWithViewController:targetViewController];
+}
+
+- (UIViewController *)viewControllerFromStoryBoardID:(NSString *)aViewControllerStoryBoardID {
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"3.5" bundle:nil];
+    UIViewController *viewController = [storyBoard instantiateViewControllerWithIdentifier:aViewControllerStoryBoardID];
+    return viewController;
+}
+
+@end
+
+@implementation UITabBarController (SmartTabBarController)
+
+- (void)updateViewControllersWithViewController:(UIViewController *)aViewController {
+    
+    NSMutableArray *newViewControllers = [self.viewControllers mutableCopy];
+    NSInteger currentViewControllerIndex = [self.viewControllers indexOfObject:self.selectedViewController];
+    
+    [newViewControllers replaceObjectAtIndex:currentViewControllerIndex withObject:aViewController];
+    self.viewControllers = newViewControllers;
+}
+
 @end

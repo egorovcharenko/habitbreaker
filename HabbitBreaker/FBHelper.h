@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FBRequest.h"
+#import "Facebook.h"
 
-@interface FBHelper : NSObject <FBRequestDelegate>
+@interface FBHelper : NSObject <FBSessionDelegate, FBRequestDelegate>
 
 - (void)login;
 - (void)logout;
 - (void)postText:(NSString*)message;
++ (instancetype)sharedInstance;
 
 @end

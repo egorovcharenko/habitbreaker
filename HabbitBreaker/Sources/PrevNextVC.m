@@ -11,9 +11,13 @@
 
 @interface PrevNextVC ()
 
+- (IBAction)backClick:(id)sender;
+
 @end
 
 @implementation PrevNextVC
+
+@synthesize isVisible = _isVisible;
 
 - (BOOL)checkFilledData {
     [NSException exceptionWithName:NSInternalInconsistencyException reason:[NSString stringWithFormat:@"Method %@ is not implemented", NSStringFromSelector(_cmd)] userInfo:nil];
@@ -52,14 +56,6 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    self.isVisible = YES;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    self.isVisible = NO;
-}
-
 - (void)prepareForSegue:(CancellingPushSegue *)segue sender:(id)sender {
     if ( ! self.checkFilledData) {
         segue.cancelled = YES;
@@ -73,6 +69,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)backClick:(id)sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

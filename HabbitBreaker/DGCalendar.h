@@ -17,10 +17,8 @@
 
 @optional
 
-- (void)     calendar:(DGCalendar*)calendar clickedOnTile         :(DGDayTile*)tile;
-- (NSInteger)calendar:(DGCalendar*)calendar taggedTileTypeForDate :(NSDateComponents*)date;
-- (void)     calendar:(DGCalendar*)calendar customizeTile         :(DGDayTile*)dayTile withDate:(NSDateComponents *)date;
-- (void)     calendar:(DGCalendar*)calendar tileForDate           :(NSDateComponents*)date;
+- (void)      calendar:(DGCalendar*)calendar clickedOnTile         :(DGDayTile*)tile;
+- (DGDayTile*)calendar:(DGCalendar*)calendar tileForDate           :(NSDateComponents*)date;
 
 @end
 
@@ -30,7 +28,6 @@
 
 
 @property(nonatomic, weak)   IBOutlet id<DGCalendarDelegate>        delegate;
-@property(nonatomic, strong) IBOutletCollection(DGDayTile) NSArray  *tiles;
 @property(nonatomic, strong) IBOutlet UIButton                      *goPreviousMonth;
 @property(nonatomic, strong) IBOutlet UIButton                      *goNextMonth;
 

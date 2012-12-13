@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StoreKit/StoreKit.h>
 
-@interface Purchases : NSObject
+@interface Purchases : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
+
++ (Purchases *)sharedPurchases;
+- (void)requestProductWithIndex:(NSInteger)aIndex;
 
 @end

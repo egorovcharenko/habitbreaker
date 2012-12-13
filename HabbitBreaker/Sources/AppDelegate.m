@@ -10,6 +10,7 @@
 #import "InputProgressVC.h"
 #import "App.h"
 #import "Facebook.h"
+#import "Purchases.h"
 
 typedef enum {
     ResolutionIPhone35  = 480,
@@ -28,29 +29,23 @@ typedef enum {
         UITabBarController     *rootVC = rootNavigationVC.viewControllers.lastObject;
         [rootVC setSelectedIndex:1];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hi!" message:@"You should enter your progress" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Hi!" message:@"You should enter you progress now. Remember - you promised!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
         [alert show];
     });
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // should be called for add payment observer
+    [Purchases sharedPurchases];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    self.facebook = [[Facebook alloc] initWithAppId:kFBApiSecret andDelegate:self];
+    [self.facebook performSelector:NSSelectorFromString(@"retain")];
     self.app = [App sharedApp];
     
     UIStoryboard *storyboard = nil;
-//    switch ((NSInteger)UIScreen.mainScreen.bounds.size.height) {
-//        case ResolutionIPhone35:
-            storyboard = [UIStoryboard storyboardWithName:@"3.5" bundle:nil];
-//            break;
-//        case ResolutionIPhone4:
-//            storyboard = [UIStoryboard storyboardWithName:@"4.0" bundle:nil];
-//            break;
-//        case ResolutionIPad:
-//            [NSException exceptionWithName:@"There are no that storyboard" reason:@"iPad does not support" userInfo:nil];
-//            break;
-//    }
+    storyboard = [UIStoryboard storyboardWithName:@"3.5" bundle:nil];
     
     
     [self.window setRootViewController:[storyboard instantiateInitialViewController]];
@@ -67,51 +62,14 @@ typedef enum {
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     
-    
+//    NSLog(@"%@", ([self.app isOnPaidScreen] ? @"on paid" : @"any where"));
     return YES;
 }
-
 
 #pragma mark - FBConnect open from URL Scheme
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return [self.facebook handleOpenURL:url];
-}
-
-#pragma mark - FBConnect delegate
-
-- (void)fbDidLogin {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[self.facebook accessToken] forKey:@"FBAccessTokenKey"];
-    [defaults setObject:[self.facebook expirationDate] forKey:@"FBExpirationDateKey"];
-    [defaults synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFbLoginSuccess object:nil];
-    NSLog(@"login success!");
-}
-
-- (void)fbDidLogout {
-    // Remove saved authorization information if it exists
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([defaults objectForKey:@"FBAccessTokenKey"]) {
-        [defaults removeObjectForKey:@"FBAccessTokenKey"];
-        [defaults removeObjectForKey:@"FBExpirationDateKey"];
-        [defaults synchronize];
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationFbLogoutSuccess object:nil];
-    NSLog(@"logout success!");
-}
-
-- (void)fbDidNotLogin:(BOOL)cancelled {
-    
-}
-
-- (void)fbDidExtendToken:(NSString*)accessToken
-               expiresAt:(NSDate*)expiresAt {
-    
-}
-
-- (void)fbSessionInvalidated {
-    
 }
 
 @end

@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "BaseVC.h"
 
-@interface InputProgressVC : BaseVC
+@interface InputProgressVC : BaseVC <UIAlertViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *gaveInLbl;
-@property (weak, nonatomic) IBOutlet UILabel *resistedLbl;
+@property (weak, nonatomic) IBOutlet UITextView *gaveInLbl;
+@property (weak, nonatomic) IBOutlet UITextView *resistedLbl;
+
+- (IBAction)gotoFailVC:(id)sender;
+- (IBAction)gotoSuccessVC:(id)sender;
 
 @end

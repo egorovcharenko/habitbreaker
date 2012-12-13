@@ -11,4 +11,13 @@
 
 @interface BaseVC : UIViewController
 
+- (void)gotoViewControllerWithName:(NSString *)aViewControllerName;
+- (UIViewController *)viewControllerFromStoryBoardID:(NSString *)aViewControllerStoryBoardID;
+
+@end
+
+@interface UITabBarController (SmartTabBarController)
+
+- (void)updateViewControllersWithViewController:(UIViewController *)aViewController;
+
 @end

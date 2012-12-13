@@ -10,22 +10,25 @@
 
 @implementation InspirationsStorieVC
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    NSURL *url = [NSURL URLWithString:@"http://habitbreaker.humantouch.ru/successstories.html"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [self._webView loadRequest:request];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)viewDidUnload {
+    [self set_webView:nil];
+    [super viewDidUnload];
 }
-*/
+
+- (IBAction)gotoExamples:(id)sender {
+    [self gotoViewControllerWithName:@"InspirationVC"];
+}
+
+- (IBAction)gotoTips:(id)sender {
+    [self gotoViewControllerWithName:@"InspirationsTipsVC"];
+}
 
 @end

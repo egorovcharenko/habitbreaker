@@ -13,6 +13,15 @@
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        int retVal = 70;
+        
+        @try {
+            retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Call stack: %@", exception.callStackSymbols);
+        }
+        
+        return retVal;
     }
 }

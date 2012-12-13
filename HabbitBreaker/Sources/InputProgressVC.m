@@ -9,8 +9,13 @@
 #import "InputProgressVC.h"
 #import "App.h"
 #import "Goal.h"
+#import "CancellingPushSegue.h"
+#import "InputProgressFailVC.h"
+#import "InputProgressSuccessVC.h"
 
-@interface InputProgressVC ()
+@interface InputProgressVC () {
+    UIViewController *forwardViewController; // bad code (sorry)
+}
 
 @end
 
@@ -20,7 +25,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -37,9 +41,35 @@
 }
 
 - (void)viewDidUnload {
+
     [self setGaveInLbl:nil];
     [self setResistedLbl:nil];
     [super viewDidUnload];
+}
+
+- (IBAction)gotoFailVC:(id)sender {
+    [self showAlertWithButtonText:@"I gave in today"];
+    forwardViewController = [self viewControllerFromStoryBoardID:@"InputProgressFailVC"];
+}
+
+- (IBAction)gotoSuccessVC:(id)sender {
+    [self showAlertWithButtonText:@"I resisted"];
+    forwardViewController = [self viewControllerFromStoryBoardID:@"InputProgressSuccessVC"];
+}
+
+- (void)showAlertWithButtonText:(NSString *)aText {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm"
+                                                    message:@"Are you sure?"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel" otherButtonTitles:aText, nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self.navigationController pushViewController:forwardViewController animated:YES];
+    }
+    forwardViewController = nil;
 }
 
 @end

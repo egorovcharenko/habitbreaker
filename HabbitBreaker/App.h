@@ -54,6 +54,7 @@ typedef enum {
 
 - (BOOL)isFirstLaunch;
 - (void)scheduleReminderWithGoal:(Goal*)goal andAlert:(NSString*)alert;
+- (void)rescheduleReminder;
 - (void)cancelReminderWithGoal:(Goal*)goal;
 - (Level)currentLevel;
 - (NSUInteger)numOfWins;
@@ -61,5 +62,10 @@ typedef enum {
 - (NSInteger)howMuchToPay;
 - (void)synchronize;
 
+- (BOOL)canEnterProgress;
+
+- (void)didEnterOnPaidScreen;
+- (void)didLeaveOnPaidScreen;
+- (BOOL)isOnPaidScreen;
 
 @end
