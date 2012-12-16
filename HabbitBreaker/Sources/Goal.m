@@ -82,7 +82,7 @@
 
 - (void)start {
     if ([App sharedApp].isFirstLaunch) {
-        [[App sharedApp] scheduleReminderWithGoal:self andAlert:@"Enter your progress"];
+        [[App sharedApp] scheduleReminderWithGoal:self andAlert:@"You should enter you progress now. Remember - you promised!"];
     }
 }
 
