@@ -150,7 +150,7 @@
     [self dateInfoForDate:date];
 }
 
-// sets velues for calendarView
+// sets values for calendarView
 // 1. number of days in the month       => daysInMonth
 // 2. day that starts the month         => monthStart
 // 3. days that should be highlighted   => highlightDays

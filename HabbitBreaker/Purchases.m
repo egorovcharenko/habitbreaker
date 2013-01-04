@@ -23,6 +23,9 @@
 {
     self = [super init];
     if (self) {
+        if (![SKPaymentQueue canMakePayments]) {
+            // TODO Warn the user that purchases are disabled.
+        }
         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     }
     return self;
@@ -93,7 +96,7 @@
 {
     NSLog(@"Invalid identifiers : %@", response.invalidProductIdentifiers);
     if (response.products.count > 1) {
-        NSLog(@"some thing wrong");
+        NSLog(@"something went wrong: response.products.count > 1");
     }
     [self addPaymentWithProduct:[response.products lastObject]];
 }

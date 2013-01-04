@@ -46,13 +46,13 @@
 }
 
 - (void)loginFacebookSuccess {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Login success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alert show];
+    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Login success!" delegate:self //cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    // [alert show];
 }
 
 - (void)logoutFacebookSuccess {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Logout success!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alert show];
+    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message" message:@"Logout success!" delegate:self //cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    // [alert show];
 }
 
 #pragma mark - Main View Actions
