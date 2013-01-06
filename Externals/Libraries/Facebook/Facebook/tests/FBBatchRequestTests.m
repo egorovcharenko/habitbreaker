@@ -283,7 +283,7 @@
              NSDecimalNumber *width = [result objectForKey:@"width"];
              STAssertNotNil(width, @"couldn't get width");
              STAssertTrue(image1Size == (int)[width doubleValue], @"wrong width");
-             NSLog(@"%@", width);
+             NSLog(@"width=%@", width);
 
              [blocker signal];
          }]; 
@@ -299,7 +299,7 @@
              NSDecimalNumber *width = [result objectForKey:@"width"];
              STAssertNotNil(width, @"couldn't get width");
              STAssertTrue(image2Size == (int)[width doubleValue], @"wrong width");
-             NSLog(@"%@", width);
+             NSLog(@"width=%@", width);
              
              [blocker signal];
          }];

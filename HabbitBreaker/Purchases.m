@@ -8,8 +8,7 @@
 
 #import "Purchases.h"
 
-//#define kProductIdentifier @"com.kendalinvestmentslimited.habitbreaker"
-#define kProductIdentifier @"com.humantouch.habitbreaker."
+#define kProductIdentifier @"ru.humantouch.habitbreaker."
 
 @interface Purchases() {
 
@@ -88,7 +87,7 @@
     SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject:productName]];
     request.delegate = self;
     [request start];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"paymentRequestSended" object:nil];
 }
 
@@ -100,6 +99,5 @@
     }
     [self addPaymentWithProduct:[response.products lastObject]];
 }
-
 
 @end

@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *checkingView;
 @property (weak, nonatomic) IBOutlet UITextField *goalName;
 @property (weak, nonatomic) IBOutlet UIButton *agreeItem;
+@property (weak, nonatomic) IBOutlet UIButton *previousBtnView;
 
 - (IBAction)onTapAgree:(id)sender;
 - (IBAction)onTapNotSure:(id)sender;

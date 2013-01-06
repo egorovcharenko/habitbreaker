@@ -119,11 +119,11 @@
     Goal *theGoal = [App sharedApp].goals.lastObject;
     NSString *message = nil;
     if (self.comment.text.length != 0) {
-        message = [NSString stringWithFormat:@"%@ - today I was not up to my high standarts in quest for “%@>” using HabitBreaker, but it will help me to move closer to my goal!",
+        message = [NSString stringWithFormat:@"%@ - today I was not up to my high standarts in a quest for “%@>” using HabitBreaker, but it will help me to move closer to my goal!",
                    self.comment.text,
                    theGoal.goalName];
     } else {
-        message = [NSString stringWithFormat:@"Today I was not up to my high standarts in quest for “%@” using HabitBreaker, but it will help me to move closer to my goal!",
+        message = [NSString stringWithFormat:@"Today I was not up to my high standarts in a quest for “%@” using HabitBreaker, but it will help me to move closer to my goal!",
                    theGoal.goalName];
     }
     
@@ -134,11 +134,11 @@
     Goal *theGoal = [App sharedApp].goals.lastObject;
     NSString *message = nil;
     if (self.comment.text.length != 0) {
-        message = [NSString stringWithFormat:@"%@ - today I was not up to my high standarts in quest for “%@>” using #habitbreaker, but it will help me to move closer to my goal!",
+        message = [NSString stringWithFormat:@"%@ - today I was not up to my high standarts in a quest for “%@>” using #habitbreaker, but it will help me to move closer to my goal!",
                    self.comment.text,
                    theGoal.goalName];
     } else {
-        message = [NSString stringWithFormat:@"Today I was not up to my high standarts in quest for “%@” using #habitbreaker, but it will help me to move closer to my goal!",
+        message = [NSString stringWithFormat:@"Today I was not up to my high standarts in a quest for “%@” using #habitbreaker, but it will help me to move closer to my goal!",
                    theGoal.goalName];
     }
     

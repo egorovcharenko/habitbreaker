@@ -39,13 +39,13 @@
 }
 
 - (NSString*)messageToPost {
-    NSString *message = [NSString stringWithFormat:@"Today, I promise that I will reach my goal: “%@” using HabitBreaker", self.goal.goalName];
+    NSString *message = [NSString stringWithFormat:@"Today I promise that I will reach my goal: “%@” using HabitBreaker", self.goal.goalName];
     //NSLog(@"%@", message);
     return message;
 }
 
 - (NSString*)messageToPostTweet {
-    NSString *message = [NSString stringWithFormat:@"Today, I promise that I will reach my goal: “%@” using #habitbreaker", self.goal.goalName];
+    NSString *message = [NSString stringWithFormat:@"Today I promise that I will reach my goal: “%@” using #habitbreaker", self.goal.goalName];
     //NSLog(@"%@", message);
     return message;
 }

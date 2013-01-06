@@ -98,7 +98,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%d", indexPath.row);
+    NSLog(@"didSelectRowAtIndexPath indexPath.row = %d", indexPath.row);
     
     Result *result = [progressData objectAtIndex:indexPath.row];
     NSString *text = result.comment;

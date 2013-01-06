@@ -32,7 +32,11 @@
 
 - (id)objectForKey:(id)aKey {
     id storedObject = [self.userDefaults objectForKey:[self stringedIndex:aKey]];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:storedObject];
+    if (storedObject != nil){
+        return [NSKeyedUnarchiver unarchiveObjectWithData:storedObject];
+    } else {
+        return nil;
+    }
 }
 
 - (void)setObject:(id)object forKey:(id)aKey {

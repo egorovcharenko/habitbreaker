@@ -1707,8 +1707,8 @@
 		8B2B0D9E161B158700F38ED8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Egor Ovcharenko (BE8NF8FA78)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Egor Ovcharenko (BE8NF8FA78)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egor Ovcharenko";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egor Ovcharenko";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Externals/Frameworks\"",
@@ -1723,8 +1723,8 @@
 					"\"$(SRCROOT)/Externals/Libraries/Facebook/facebook-ios-sdk\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3F446E90-CFB2-46D5-89F0-1A9F8EE11B45";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3F446E90-CFB2-46D5-89F0-1A9F8EE11B45";
+				PROVISIONING_PROFILE = "BF658370-FFD9-49AB-94EA-71E83E1A8F93";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1732,8 +1732,8 @@
 		8B2B0D9F161B158700F38ED8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Egor Ovcharenko (BE8NF8FA78)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Egor Ovcharenko (BE8NF8FA78)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Egor Ovcharenko";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Egor Ovcharenko";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Externals/Frameworks\"",
@@ -1748,8 +1748,8 @@
 					"\"$(SRCROOT)/Externals/Libraries/Facebook/facebook-ios-sdk\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3F446E90-CFB2-46D5-89F0-1A9F8EE11B45";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3F446E90-CFB2-46D5-89F0-1A9F8EE11B45";
+				PROVISIONING_PROFILE = "BF658370-FFD9-49AB-94EA-71E83E1A8F93";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BF658370-FFD9-49AB-94EA-71E83E1A8F93";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

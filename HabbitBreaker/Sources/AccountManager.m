@@ -55,7 +55,7 @@
 #pragma mark Initialization
 
 - (id)init {
-   // NSData *myselfData = [[NSUserDefaults standardUserDefaults] valueForKey:NSStringFromClass([self class])];
+    // NSData *myselfData = [[NSUserDefaults standardUserDefaults] valueForKey:NSStringFromClass([self class])];
     AccountManager *storedManager = nil;//[NSKeyedUnarchiver unarchiveObjectWithData:myselfData];
     
     if(storedManager != nil) {
@@ -90,7 +90,7 @@
 
 
 - (void)fbDidNotLogin:(BOOL)cancelled {
-    NSLog(@"%d", cancelled);
+    NSLog(@"fbDidNotLogin cancelled=%d", cancelled);
     if(self.facebookFailHandler != nil) {
         self.facebookFailHandler(LWUserDeniedAccessToFacebook);
     }
@@ -134,7 +134,7 @@
     
     };
     [store requestAccessToAccountsWithType:twitterType options:options completion:^(BOOL granted, NSError *error) {
-        NSLog(@"%@", error);
+        NSLog(@"requestAccessToAccountsWithType error=%@", error);
         if(granted == 0) {
             failHandler(LWUserDeniedAccessToTwitter);
         }

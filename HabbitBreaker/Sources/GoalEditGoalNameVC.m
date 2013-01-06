@@ -42,12 +42,12 @@ typedef enum {
     
     self.goalName.text = self.goal.goalName;
     
-    UIButton *previousBtnView = [UIButton buttonWithType:UIButtonTypeCustom];
-    [previousBtnView addTarget:self action:@selector(dismissMe:) forControlEvents:UIControlEventTouchUpInside];
-    [previousBtnView setBackgroundImage:[UIImage imageNamed:@"GE_Back_Button.png"] forState:UIControlStateNormal];
-    [previousBtnView setFrame:CGRectMake(0, 0, 70, 30)];
+    //UIButton *previousBtnView = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.previousBtnView addTarget:self action:@selector(dismissMe:) forControlEvents:UIControlEventTouchUpInside];
+    [self.previousBtnView setBackgroundImage:[UIImage imageNamed:@"GE_Back_Button.png"] forState:UIControlStateNormal];
+    [self.previousBtnView setFrame:CGRectMake(0, 0, 70, 30)];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:previousBtnView];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithCustomView:self.previousBtnView];
     [self.navigationItem setLeftBarButtonItem:backButton];
     
     if ([App sharedApp].isFirstLaunch) {
@@ -66,6 +66,7 @@ typedef enum {
 }
 
 - (void)viewDidUnload {
+    [self setPreviousBtnView:nil];
     [self setAgreeItem:nil];
     
 }
