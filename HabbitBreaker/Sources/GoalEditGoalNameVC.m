@@ -11,6 +11,8 @@
 #import "App.h"
 #import "Goal.h"
 
+#import "LocalyticsSession.h"
+
 typedef enum {
     Agree,
     NotSure,
@@ -55,6 +57,10 @@ typedef enum {
     } else {
         [_agreeItem sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: enter name screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Goal edit enter name"];
 }
 
 - (void)dismissMe:(id)sender {
@@ -96,6 +102,11 @@ typedef enum {
 - (BOOL)checkFilledData {
     if (self.goalName.text.length > 0) {
         if (self.selectionState == Agree) {
+            // localytics
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        self.goalName.text, @"Goal name",
+                                        nil];
+            [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: entered goal with name:" attributes:dictionary];
             return YES;
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information" message:@"If you don't really want to achieve this goal - this system will not work. Besides, what is the point in reaching it anyway?" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];

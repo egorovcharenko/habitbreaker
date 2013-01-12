@@ -9,6 +9,8 @@
 #import "InspirationVC.h"
 #import "InspirationsStorieVC.h"
 
+#import "LocalyticsSession.h"
+
 @interface InspirationVC ()
 
 @end
@@ -29,6 +31,10 @@
     self.scrollCanvas.contentSize  = contentSize;
     
     self.pageControl.numberOfPages = self.pages.count;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Inspiration: goals screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Inspiration: goals"];
 }
 
 #pragma mark UIScrollViewDelegate

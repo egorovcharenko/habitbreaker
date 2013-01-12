@@ -12,6 +12,8 @@
 #import "Facebook.h"
 #import "Purchases.h"
 
+#import "LocalyticsSession.h"
+
 typedef enum {
     ResolutionIPhone35  = 480,
     ResolutionIPhone4   = 568,
@@ -62,6 +64,9 @@ typedef enum {
         self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
     }
     
+    // Override point for customization after application launch.
+    [[LocalyticsSession sharedLocalyticsSession] startSession:@"0bb920f6d4de9cdc6a6bd4f-8dfde63a-5cb3-11e2-3b45-004b50a28849"];
+
 //    NSLog(@"%@", ([self.app isOnPaidScreen] ? @"on paid" : @"any where"));
     return YES;
 }
@@ -72,4 +77,31 @@ typedef enum {
     return [self.facebook handleOpenURL:url];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[LocalyticsSession sharedLocalyticsSession] close];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [[LocalyticsSession sharedLocalyticsSession] resume];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    // Close Localytics Session
+    [[LocalyticsSession sharedLocalyticsSession] close];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    [[LocalyticsSession sharedLocalyticsSession] close];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[LocalyticsSession sharedLocalyticsSession] resume];
+    [[LocalyticsSession sharedLocalyticsSession] upload];
+}
 @end

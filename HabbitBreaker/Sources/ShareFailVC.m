@@ -16,6 +16,9 @@
 #import "FBHelper.h"
 #import "AppDelegate.h"
 
+#import "LocalyticsSession.h"
+
+
 @interface ShareFailVC ()
 @property(nonatomic, unsafe_unretained)BOOL isVisible;
 @end
@@ -99,6 +102,9 @@
         contentSize.width = MAX(contentSize.width, view.frame.origin.x + view.frame.size.width);
     }
     self.scrollCanvas.contentSize = contentSize;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail share screen opened"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -146,6 +152,9 @@
 }
 
 - (IBAction)onFacebookTap:(id)sender {
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail comment posted to FB"];
+    
     FBHelper *fbHelper = [FBHelper sharedInstance];
     
     [fbHelper postText:self.messageToPost];
@@ -158,6 +167,9 @@
         [tweetVC setInitialText:self.messageToPostTweet];
         
         [self presentViewController:tweetVC animated:YES completion:nil];
+        
+        // localytics
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail comment posted to Tweeter"];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to Tweet" message:@"Please ensure you have at least one Twitter account setup and have internet connectivity" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertView show];
@@ -174,6 +186,9 @@
     [navigationVC popToRootViewControllerAnimated:YES];
     TabbarVC *tabbar = (TabbarVC*)navigationVC.topViewController;
     tabbar.selectedIndex = 0;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail message saved"];
 }
 
 - (IBAction)onFinishTap:(id)sender {

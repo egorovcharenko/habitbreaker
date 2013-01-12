@@ -9,6 +9,8 @@
 #import "GoalEditCriteriaVC.h"
 #import "Goal.h"
 
+#import "LocalyticsSession.h"
+
 @implementation GoalEditCriteriaVC
 
 - (void)initialize {
@@ -52,6 +54,9 @@
     }
     
     self.scrollCanvas.contentSize = contentSize;
+    
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: criteria screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Goal edit criteria screen"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -125,6 +130,13 @@
     if (self.failCriteria.text.length > 0 &&
         self.successCriteria.text.length > 0)
     {
+        // localytics
+        NSDictionary *dictionary =
+        [NSDictionary dictionaryWithObjectsAndKeys:
+         self.failCriteria.text, @"FailCriteria", @"FailCriteria",
+         self.successCriteria.text, @"SuccessCriteria", @"SuccessCriteria",
+         nil];
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: entered criteria:" attributes:dictionary];
         return YES;
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information" message:@"Please enter all criterias" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];

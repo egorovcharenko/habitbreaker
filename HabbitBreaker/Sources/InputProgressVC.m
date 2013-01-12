@@ -13,6 +13,8 @@
 #import "InputProgressFailVC.h"
 #import "InputProgressSuccessVC.h"
 
+#import "LocalyticsSession.h"
+
 @interface InputProgressVC () {
     UIViewController *forwardViewController; // bad code (sorry)
 }
@@ -32,6 +34,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.gaveInLbl.text   = [[App sharedApp].goals.lastObject failCriteria];
     self.resistedLbl.text = [[App sharedApp].goals.lastObject successCriteria];
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Input progress"];
 }
 
 - (void)didReceiveMemoryWarning

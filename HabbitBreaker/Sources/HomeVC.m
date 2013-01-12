@@ -16,6 +16,8 @@
 #import "Result.h"
 #import "AppDelegate.h"
 
+#import "LocalyticsSession.h"
+
 #define CALV_VIEW_HEIGHT 180.0
 
 @interface HomeVC () {
@@ -96,7 +98,15 @@
     [self printDateInfo];
     
     if ([App sharedApp].isFirstLaunch) {
+        // localytics
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Home: first launch screen opened"];
+        [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Home, first launch"];
+        
         [self performSegueWithIdentifier:@"SegueToGoalEdit" sender:self];
+    } else {
+        // localytics
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Home: screen opened"];
+        [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Home"];
     }
 }
 

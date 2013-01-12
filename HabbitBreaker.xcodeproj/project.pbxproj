@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EB6B6F516A18D7000FBD634 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0EB6B6ED16A18D7000FBD634 /* LICENSE */; };
+		0EB6B6F616A18D7000FBD634 /* LocalyticsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B6EF16A18D7000FBD634 /* LocalyticsDatabase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EB6B6F716A18D7000FBD634 /* LocalyticsSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B6F116A18D7000FBD634 /* LocalyticsSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EB6B6F816A18D7000FBD634 /* LocalyticsUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B6F316A18D7000FBD634 /* LocalyticsUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0EB6B6FA16A18EFB00FBD634 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB6B6F916A18EFB00FBD634 /* libz.dylib */; };
+		0EB6B6FC16A18F0D00FBD634 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB6B6FB16A18F0D00FBD634 /* libsqlite3.dylib */; };
+		0EB6B6FD16A18F3600FBD634 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B761BE5163779FA00501074 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8B0F5E631624774D0026CFE0 /* 3.5.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B0F5E621624774D0026CFE0 /* 3.5.storyboard */; };
 		8B0F5E65162477B10026CFE0 /* 4.0.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B0F5E64162477B10026CFE0 /* 4.0.storyboard */; };
 		8B1494951643438A0090C81E /* FBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B1494941643433F0090C81E /* FBHelper.m */; };
@@ -302,6 +309,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EB6B6ED16A18D7000FBD634 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		0EB6B6EE16A18D7000FBD634 /* LocalyticsDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsDatabase.h; sourceTree = "<group>"; };
+		0EB6B6EF16A18D7000FBD634 /* LocalyticsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalyticsDatabase.m; sourceTree = "<group>"; };
+		0EB6B6F016A18D7000FBD634 /* LocalyticsSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsSession.h; sourceTree = "<group>"; };
+		0EB6B6F116A18D7000FBD634 /* LocalyticsSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalyticsSession.m; sourceTree = "<group>"; };
+		0EB6B6F216A18D7000FBD634 /* LocalyticsUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalyticsUploader.h; sourceTree = "<group>"; };
+		0EB6B6F316A18D7000FBD634 /* LocalyticsUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalyticsUploader.m; sourceTree = "<group>"; };
+		0EB6B6F416A18D7000FBD634 /* WebserviceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebserviceConstants.h; sourceTree = "<group>"; };
+		0EB6B6F916A18EFB00FBD634 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0EB6B6FB16A18F0D00FBD634 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		8B0F5E5C1624609C0026CFE0 /* UIView+FlexibleAddingSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FlexibleAddingSubviews.h"; sourceTree = "<group>"; };
 		8B0F5E5D1624609C0026CFE0 /* UIView+FlexibleAddingSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FlexibleAddingSubviews.m"; sourceTree = "<group>"; };
 		8B0F5E621624774D0026CFE0 /* 3.5.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = 3.5.storyboard; sourceTree = "<group>"; };
@@ -622,6 +639,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EB6B6FD16A18F3600FBD634 /* AdSupport.framework in Frameworks */,
+				0EB6B6FC16A18F0D00FBD634 /* libsqlite3.dylib in Frameworks */,
+				0EB6B6FA16A18EFB00FBD634 /* libz.dylib in Frameworks */,
 				D5697064165D4D8200EB0A2A /* StoreKit.framework in Frameworks */,
 				8B77CDCF1644A9D000832540 /* libfacebook_ios_sdk.a in Frameworks */,
 				8B85E01F1641231A00724530 /* QuartzCore.framework in Frameworks */,
@@ -638,6 +658,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0EB6B6EC16A18D5500FBD634 /* Localytics */ = {
+			isa = PBXGroup;
+			children = (
+				0EB6B6ED16A18D7000FBD634 /* LICENSE */,
+				0EB6B6EE16A18D7000FBD634 /* LocalyticsDatabase.h */,
+				0EB6B6EF16A18D7000FBD634 /* LocalyticsDatabase.m */,
+				0EB6B6F016A18D7000FBD634 /* LocalyticsSession.h */,
+				0EB6B6F116A18D7000FBD634 /* LocalyticsSession.m */,
+				0EB6B6F216A18D7000FBD634 /* LocalyticsUploader.h */,
+				0EB6B6F316A18D7000FBD634 /* LocalyticsUploader.m */,
+				0EB6B6F416A18D7000FBD634 /* WebserviceConstants.h */,
+			);
+			name = Localytics;
+			sourceTree = "<group>";
+		};
+		0EB6B6FE16A1FBEB00FBD634 /* InputProgress */ = {
+			isa = PBXGroup;
+			children = (
+				8B7DC1F3161ED07100B935CE /* InputProgressVC.h */,
+				8B7DC1F2161ED07100B935CE /* InputProgressVC.m */,
+				8B761BBF1635F50F00501074 /* InputProgressSuccessVC.h */,
+				8B7DC1F1161ED07100B935CE /* InputProgressSuccessVC.m */,
+				8B7DC201161ED07100B935CE /* ShareSuccessVC.h */,
+				8B7DC1FE161ED07100B935CE /* ShareSuccessVC.m */,
+				8B7DC1FF161ED07100B935CE /* InputProgressFailVC.h */,
+				8B7DC1FC161ED07100B935CE /* InputProgressFailVC.m */,
+				8B7DC202161ED07100B935CE /* ShareFailVC.h */,
+				8B7DC200161ED07100B935CE /* ShareFailVC.m */,
+			);
+			name = InputProgress;
+			sourceTree = "<group>";
+		};
 		8B0F5E5816245FD70026CFE0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,25 +702,16 @@
 		8B0F5E5916245FEB0026CFE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0EB6B6FE16A1FBEB00FBD634 /* InputProgress */,
 				D5878324165961700068C1EB /* Inspirations */,
-				8B0F5E5816245FD70026CFE0 /* Utils */,
-				8B7DC1F9161ED07100B935CE /* TabbarVC.h */,
-				8B7DC1F8161ED07100B935CE /* TabbarVC.m */,
-				8B7DC1F3161ED07100B935CE /* InputProgressVC.h */,
-				8B7DC1F2161ED07100B935CE /* InputProgressVC.m */,
-				8B761BBF1635F50F00501074 /* InputProgressSuccessVC.h */,
-				8B7DC1F1161ED07100B935CE /* InputProgressSuccessVC.m */,
-				8B7DC201161ED07100B935CE /* ShareSuccessVC.h */,
-				8B7DC1FE161ED07100B935CE /* ShareSuccessVC.m */,
-				8B7DC1FF161ED07100B935CE /* InputProgressFailVC.h */,
-				8B7DC1FC161ED07100B935CE /* InputProgressFailVC.m */,
-				8B7DC202161ED07100B935CE /* ShareFailVC.h */,
-				8B7DC200161ED07100B935CE /* ShareFailVC.m */,
-				8B7DC204161ED07100B935CE /* HomeVC.h */,
-				8B7DC203161ED07100B935CE /* HomeVC.m */,
 				8B8CC1331639B2E800890F43 /* DetailedProgress */,
 				8B2B0DD3161B3F5C00F38ED8 /* How It Works */,
 				8B2B0DD2161B3F3500F38ED8 /* Goal Edit */,
+				8B0F5E5816245FD70026CFE0 /* Utils */,
+				8B7DC1F9161ED07100B935CE /* TabbarVC.h */,
+				8B7DC1F8161ED07100B935CE /* TabbarVC.m */,
+				8B7DC204161ED07100B935CE /* HomeVC.h */,
+				8B7DC203161ED07100B935CE /* HomeVC.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -717,6 +760,8 @@
 		8B2B0D7C161B158700F38ED8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EB6B6FB16A18F0D00FBD634 /* libsqlite3.dylib */,
+				0EB6B6F916A18EFB00FBD634 /* libz.dylib */,
 				D5697063165D4D8200EB0A2A /* StoreKit.framework */,
 				8B761BE91637885A00501074 /* libsqlite3.0.dylib */,
 				8B85E01E1641231800724530 /* QuartzCore.framework */,
@@ -735,6 +780,7 @@
 		8B2B0D83161B158700F38ED8 /* HabbitBreaker */ = {
 			isa = PBXGroup;
 			children = (
+				0EB6B6EC16A18D5500FBD634 /* Localytics */,
 				8B7DC21D161ED26300B935CE /* Resources */,
 				8B2B0DB9161B353400F38ED8 /* Sources */,
 				8B0F5E621624774D0026CFE0 /* 3.5.storyboard */,
@@ -1577,6 +1623,7 @@
 				D545814716627DAE00A6DC89 /* close.png in Resources */,
 				D545814816627DAE00A6DC89 /* close@2x.png in Resources */,
 				D590FD1F166BD53500863DC4 /* Home_Calendar_Background_new.png in Resources */,
+				0EB6B6F516A18D7000FBD634 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1624,6 +1671,9 @@
 				D52F7DD91659644000DA5857 /* InspirationsStorieVC.m in Sources */,
 				D58ABD301660616F009AB1D2 /* Purchases.m in Sources */,
 				D5E6906F1667E74B00D9A40E /* CalendarView.m in Sources */,
+				0EB6B6F616A18D7000FBD634 /* LocalyticsDatabase.m in Sources */,
+				0EB6B6F716A18D7000FBD634 /* LocalyticsSession.m in Sources */,
+				0EB6B6F816A18D7000FBD634 /* LocalyticsUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

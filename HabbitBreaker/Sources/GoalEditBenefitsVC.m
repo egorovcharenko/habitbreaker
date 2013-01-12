@@ -11,6 +11,8 @@
 #import "SSTextView.h"
 #import "CancellingPushSegue.h"
 
+#import "LocalyticsSession.h"
+
 @interface GoalEditBenefitsVC ()
 
 @end
@@ -88,6 +90,10 @@
         contentSize.width = MAX(contentSize.width, view.frame.origin.x + view.frame.size.width);
     }
     self.scrollCanvas.contentSize = contentSize;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: goal benefits screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Goal edit"];
 }
 
 - (void)scrollToEditingView:(UIView*)editingView {
@@ -133,6 +139,13 @@
         self.myHealthBenefits.text.length > 0 &&
         self.myFinanceBenefits.text.length > 0)
     {
+        // localytics
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    self.personalLifeBenefits.text, @"PersonalBenefits",
+                                    self.myHealthBenefits.text, @"HealthBenefits",
+                                    self.myFinanceBenefits.text, @"FinanceBenefits",
+                                    nil];
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: entered goal beneftis:" attributes:dictionary];
         return YES;
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information" message:@"Please enter all benefits - it will help you" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];

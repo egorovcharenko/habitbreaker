@@ -12,6 +12,8 @@
 #import <Twitter/Twitter.h>
 #import "FBHelper.h"
 
+#import "LocalyticsSession.h"
+
 @interface GoalEditPromiseToOthersVC ()
 
 @end
@@ -29,10 +31,17 @@
     [finishButton setFrame:CGRectMake(0, 0, 90, 30)];
     
     self.barButtonNext.customView = finishButton;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: promise to others screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Goal edit promise to others"];
 }
 
 
 - (IBAction)onFinish:(id)sender {
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: whole goal entry/edit finished"];
+
     [[App sharedApp] addGoal:self.goal];
     [self.goal start];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -55,6 +64,9 @@
     FBHelper *fbHelper = [FBHelper sharedInstance];
     
     [fbHelper postText:self.messageToPost];
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: promise to others posted on FB"];
 }
 
 - (IBAction)onTwitterTap:(id)sender {
@@ -64,6 +76,10 @@
         [tweetVC setInitialText:self.messageToPostTweet];
         
         [self presentViewController:tweetVC animated:YES completion:nil];
+        
+        // localytics
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: promise to others posted on Twitter"];
+
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to Tweet" message:@"Please ensure you have at least one Twitter account setup and have internet connectivity" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertView show];

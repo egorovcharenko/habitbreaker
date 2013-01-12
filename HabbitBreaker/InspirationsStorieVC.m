@@ -8,6 +8,8 @@
 
 #import "InspirationsStorieVC.h"
 
+#import "LocalyticsSession.h"
+
 @implementation InspirationsStorieVC
 
 - (void)viewDidLoad {
@@ -16,6 +18,10 @@
     NSURL *url = [NSURL URLWithString:@"http://habitbreaker.humantouch.ru/successstories.html"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self._webView loadRequest:request];
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Inspiration: stories screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Inspiration: stories"];
 }
 
 - (void)viewDidUnload {

@@ -12,6 +12,9 @@
 #import "Result.h"
 #import "Purchases.h"
 
+#import "LocalyticsSession.h"
+
+
 @interface InputProgressFailVC ()
 @property(nonatomic, strong)NSString *confirmationFormat;
 @end
@@ -43,10 +46,16 @@
         self.navigationItem.hidesBackButton = YES;
     }
     
-    
     self.confirmationFormat = self.confirmationLbl.text;
     
     self.confirmationLbl.text = [NSString stringWithFormat:self.confirmationFormat, [[App sharedApp] howMuchToPay]];
+
+    // localytics
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSString stringWithFormat:@"%d", [[App sharedApp] howMuchToPay]], @"Payment",
+                                nil];
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail screen opened:" attributes:dictionary];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Input progress: fail"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,11 +86,17 @@
 }
 
 - (IBAction)onPay:(id)sender {
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail penalty payment process was started"];
+
     [[Purchases sharedPurchases] requestProductWithIndex:[[App sharedApp] howMuchToPay]];
 //    [self saveResultAndLeave];
 }
 
 - (void)saveResultAndLeave {
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: fail penalty was successfuly paid"];
+
     // saving
     Result *result = [Result new];
     result.result = Fail;

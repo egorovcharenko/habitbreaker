@@ -11,6 +11,8 @@
 #import "Goal.h"
 #import "Result.h"
 
+#import "LocalyticsSession.h"
+
 typedef enum {
     Printed,
     OtherWay
@@ -45,6 +47,10 @@ typedef enum {
         contentSize.height = MAX(contentSize.height, view.frame.origin.y + view.frame.size.height);
     }
     self.scrollCanvas.contentSize = contentSize;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: promise to self screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Goal edit promise to self"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -129,6 +135,9 @@ typedef enum {
 
 - (IBAction)onSendEmail:(id)sender {
     if ([MFMailComposeViewController canSendMail]) {
+        // localytics
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: have sent promise email"];
+
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
         mailViewController.mailComposeDelegate = self;
         
@@ -143,6 +152,7 @@ typedef enum {
         [mailViewController setToRecipients:@[self.emailTxt.text]];
         
         [self presentModalViewController:mailViewController animated:YES];
+        
     } else {
         NSLog(@"Device is unable to send email in its current state.");
     }

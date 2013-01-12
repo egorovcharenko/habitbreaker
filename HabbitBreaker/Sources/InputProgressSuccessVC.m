@@ -10,6 +10,8 @@
 #import "App.h"
 #import "Goal.h"
 
+#import "LocalyticsSession.h"
+
 @interface InputProgressSuccessVC ()
 
 @end
@@ -74,6 +76,10 @@
     
     NSString *format = self.actualPoints.text;
     self.actualPoints.text = [NSString stringWithFormat:format, [[App sharedApp].goals.lastObject points]];
+
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: success screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Input progress: success"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

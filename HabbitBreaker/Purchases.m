@@ -86,9 +86,9 @@
     NSString *productName = [NSString stringWithFormat:@"%@%d", kProductIdentifier, aIndex];
     SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject:productName]];
     request.delegate = self;
-    [request start];
-
     [[NSNotificationCenter defaultCenter] postNotificationName:@"paymentRequestSended" object:nil];
+    
+    [request start];
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response

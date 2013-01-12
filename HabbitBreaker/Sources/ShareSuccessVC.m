@@ -14,6 +14,9 @@
 #import <Twitter/Twitter.h>
 #import "FBHelper.h"
 
+#import "LocalyticsSession.h"
+
+
 @interface ShareSuccessVC ()
 @property(nonatomic, unsafe_unretained)BOOL isVisible;
 @end
@@ -96,6 +99,9 @@
         contentSize.width = MAX(contentSize.width, view.frame.origin.x + view.frame.size.width);
     }
     self.scrollCanvas.contentSize = contentSize;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: success share screen opened"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -148,12 +154,18 @@
 }
 
 - (IBAction)onFacebookTap:(id)sender {
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: success comment posted on FB"];
+    
     FBHelper *fbHelper = [FBHelper sharedInstance];
     
     [fbHelper postText:self.messageToPost];
 }
 
 - (IBAction)onSaveTap:(id)sender {
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: success comment saved"];
+
     Goal   *goal   = [App sharedApp].goals.lastObject;
     Result *result = goal.progressHistory.lastObject;
     result.comment = self.comment.text;
@@ -176,6 +188,8 @@
         [tweetVC setInitialText:self.messageToPostTweet];
         
         [self presentViewController:tweetVC animated:YES completion:nil];
+        // localytics
+        [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Input progress: success comment posted on Twitter"];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to Tweet" message:@"Please ensure you have at least one Twitter account setup and have internet connectivity" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertView show];

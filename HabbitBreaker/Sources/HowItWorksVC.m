@@ -8,6 +8,8 @@
 
 #import "HowItWorksVC.h"
 
+#import "LocalyticsSession.h"
+
 @interface HowItWorksVC ()
 
 @end
@@ -35,6 +37,10 @@
     self.scrollCanvas.contentSize  = contentSize;
     
     self.pageControl.numberOfPages = self.pages.count;
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"How it works: screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"How it works"];
 }
 
 #pragma mark UIScrollViewDelegate

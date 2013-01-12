@@ -609,7 +609,7 @@
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="MB&lt;F/>I made it! Hooray!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ceA-t0-afR">
                                         <rect key="frame" x="170" y="106" width="92" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2546,6 +2546,183 @@ This will help you move forward towards your goal. If you follow this path consi
         <image name="inpprogr_icon.png" width="30" height="30"/>
         <image name="inspiration_icon.png" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="BaseVC" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BaseVC.h"/>
+        </class>
+        <class className="DetailedProgressCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailedProgressCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="comment" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="date" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="result" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="DetailedProgressVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailedProgressVC.h"/>
+        </class>
+        <class className="GoalEditBenefitsVC" superclassName="PrevNextVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GoalEditBenefitsVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="myFinanceBenefits" candidateClass="SSTextView"/>
+                <relationship kind="outlet" name="myHealthBenefits" candidateClass="SSTextView"/>
+                <relationship kind="outlet" name="otherBenefits" candidateClass="SSTextView"/>
+                <relationship kind="outlet" name="personalLifeBenefits" candidateClass="SSTextView"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="GoalEditCriteriaVC" superclassName="PrevNextVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GoalEditCriteriaVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="failCriteria" candidateClass="SSTextView"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="successCriteria" candidateClass="SSTextView"/>
+            </relationships>
+        </class>
+        <class className="GoalEditGoalNameVC" superclassName="PrevNextVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GoalEditGoalNameVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onTapAgree:"/>
+                <relationship kind="action" name="onTapDisagree:"/>
+                <relationship kind="action" name="onTapNotSure:"/>
+                <relationship kind="outlet" name="agreeItem" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="barButtonBack" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="barButtonNext" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="checkingView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="goalName" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="previousBtnView" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="GoalEditPromiseToOthersVC" superclassName="PrevNextVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GoalEditPromiseToOthersVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onFacebookTap:"/>
+                <relationship kind="action" name="onFinish:"/>
+                <relationship kind="action" name="onTwitterTap:"/>
+            </relationships>
+        </class>
+        <class className="GoalEditPromiseVC" superclassName="PrevNextVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GoalEditPromiseVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onSendEmail:"/>
+                <relationship kind="action" name="onTapOtherWay:"/>
+                <relationship kind="action" name="onTapPrinted:"/>
+                <relationship kind="outlet" name="checkingView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="emailTxt" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="HomeVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HomeVC.h"/>
+            <relationships>
+                <relationship kind="action" name="showNextMonth:"/>
+                <relationship kind="action" name="showPreviosMonth:"/>
+                <relationship kind="outlet" name="beltImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="goalNameLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="monthLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tapToProgressRecognizer" candidateClass="UITapGestureRecognizer"/>
+            </relationships>
+        </class>
+        <class className="HowItWorksVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/HowItWorksVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onPageControlChangeValue:"/>
+                <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+                <relationship kind="outletCollection" name="pages" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="InputProgressFailVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InputProgressFailVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onPay:"/>
+                <relationship kind="outlet" name="confirmationLbl" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="InputProgressSuccessVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InputProgressSuccessVC.h"/>
+            <relationships>
+                <relationship kind="outlet" name="actualPoints" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="barButtonNext" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="beltImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="howMuchToNextLevelLbl" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nextBeltImage" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="InputProgressVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InputProgressVC.h"/>
+            <relationships>
+                <relationship kind="action" name="gotoFailVC:"/>
+                <relationship kind="action" name="gotoSuccessVC:"/>
+                <relationship kind="outlet" name="gaveInLbl" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="resistedLbl" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="InspirationVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InspirationVC.h"/>
+            <relationships>
+                <relationship kind="action" name="gotoStoriesVC:"/>
+                <relationship kind="action" name="gotoTips:"/>
+                <relationship kind="action" name="onPageControlChangeValue:"/>
+                <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+                <relationship kind="outletCollection" name="pages" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="InspirationsStorieVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InspirationsStorieVC.h"/>
+            <relationships>
+                <relationship kind="action" name="gotoExamples:"/>
+                <relationship kind="action" name="gotoTips:"/>
+                <relationship kind="outlet" name="_webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="InspirationsTipsVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InspirationsTipsVC.h"/>
+            <relationships>
+                <relationship kind="action" name="gotoExamples:"/>
+                <relationship kind="action" name="gotoStories:"/>
+                <relationship kind="outlet" name="_webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+        <class className="PrevNextVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PrevNextVC.h"/>
+            <relationships>
+                <relationship kind="action" name="backClick:"/>
+                <relationship kind="outlet" name="barButtonNext" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="SSTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SSTextView.h"/>
+        </class>
+        <class className="ShareFailVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShareFailVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onFacebookTap:"/>
+                <relationship kind="action" name="onFinishTap:"/>
+                <relationship kind="action" name="onSaveTap:"/>
+                <relationship kind="action" name="onTwitterTap:"/>
+                <relationship kind="outlet" name="barButtonNext" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="comment" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="ShareSuccessVC" superclassName="BaseVC">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShareSuccessVC.h"/>
+            <relationships>
+                <relationship kind="action" name="onFacebookTap:"/>
+                <relationship kind="action" name="onFinishTap:"/>
+                <relationship kind="action" name="onSaveTap:"/>
+                <relationship kind="action" name="onTwitterTap:"/>
+                <relationship kind="outlet" name="barButtonNext" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="comment" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="scrollCanvas" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="TabbarVC" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabbarVC.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

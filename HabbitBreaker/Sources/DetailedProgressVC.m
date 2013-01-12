@@ -11,6 +11,8 @@
 #import "App.h"
 #import "Goal.h"
 
+#import "LocalyticsSession.h"
+
 @interface DetailedProgressVC () {
     NSArray *progressData;
 }
@@ -42,6 +44,10 @@
     
     self.navigationItem.hidesBackButton = YES;
     progressData = [self progressHistory];
+    
+    // localytics
+    [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Detailed progress: screen opened"];
+    [[LocalyticsSession sharedLocalyticsSession] tagScreen:@"Detailed progress"];
 }
 
 - (void)viewDidUnload {
