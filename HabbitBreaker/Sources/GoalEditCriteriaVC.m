@@ -133,8 +133,8 @@
         // localytics
         NSDictionary *dictionary =
         [NSDictionary dictionaryWithObjectsAndKeys:
-         self.failCriteria.text, @"FailCriteria", @"FailCriteria",
-         self.successCriteria.text, @"SuccessCriteria", @"SuccessCriteria",
+         self.failCriteria.text, @"FailCriteria",
+         self.successCriteria.text, @"SuccessCriteria",
          nil];
         [[LocalyticsSession sharedLocalyticsSession] tagEvent:@"Goal edit: entered criteria:" attributes:dictionary];
         return YES;

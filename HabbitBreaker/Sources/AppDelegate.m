@@ -65,9 +65,11 @@ typedef enum {
     }
     
     // Override point for customization after application launch.
-    [[LocalyticsSession sharedLocalyticsSession] startSession:@"0bb920f6d4de9cdc6a6bd4f-8dfde63a-5cb3-11e2-3b45-004b50a28849"];
+    //[[LocalyticsSession sharedLocalyticsSession] startSession:@"0bb920f6d4de9cdc6a6bd4f-8dfde63a-5cb3-11e2-3b45-004b50a28849"];
+    [[LocalyticsSession sharedLocalyticsSession] startSession:@"26e427c41bfadf68251444a-894c5aac-622d-11e2-3d54-004b50a28849"];
+    //([[LocalyticsSession sharedLocalyticsSession] setLoggingEnabled:YES]);
 
-//    NSLog(@"%@", ([self.app isOnPaidScreen] ? @"on paid" : @"any where"));
+    //NSLog(@"%@", ([self.app isOnPaidScreen] ? @"on paid" : @"any where"));
     return YES;
 }
 
